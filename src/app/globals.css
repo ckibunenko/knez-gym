@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+@theme {
+  /* Surfaces */
+  --color-bg: #0a0c10;
+  --color-surface: #11141a;
+  --color-raised: #181d25;
+  --color-overlay: #1f2530;
+  --color-border: #232a35;
+  --color-border-strong: #313a48;
+
+  /* Text */
+  --color-text: #e8ebf1;
+  --color-text-secondary: #aab3c2;
+  --color-muted: #717c8f;
+
+  /* Brand */
+  --color-accent: #e3b341;
+  --color-accent-soft: #e3b34122;
+  --color-accent-strong: #f0c75e;
+
+  /* Semantic */
+  --color-good: #34d399;
+  --color-good-soft: #34d39920;
+  --color-warn: #fbbf24;
+  --color-warn-soft: #fbbf2420;
+  --color-danger: #f87171;
+  --color-danger-soft: #f8717120;
+  --color-info: #60a5fa;
+  --color-info-soft: #60a5fa20;
+  --color-violet: #a78bfa;
+  --color-violet-soft: #a78bfa20;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Inter", "Segoe UI",
+    Roboto, "Helvetica Neue", sans-serif;
+
+  --radius-card: 0.875rem;
+
+  --animate-fade-up: fade-up 0.5s ease both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+}
+
+/* Card elevation: faint inner top highlight + soft drop, theme-aware. */
+:root {
+  --shadow-card: inset 0 1px 0 0 rgba(255, 255, 255, 0.035),
+    0 10px 30px -18px rgba(0, 0, 0, 0.55);
+}
+html[data-theme="light"] {
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.05),
+    0 6px 20px -12px rgba(16, 24, 40, 0.12);
+}
+
+html {
+  color-scheme: dark;
+}
+
+/* Light theme: same tokens, brighter surfaces, darker semantic colors
+   so text keeps AA contrast on white. Toggled via data-theme. */
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --color-bg: #f4f5f8;
+  --color-surface: #ffffff;
+  --color-raised: #eef0f4;
+  --color-overlay: #e5e9ef;
+  --color-border: #dce1e8;
+  --color-border-strong: #b7c0cd;
+
+  --color-text: #181c23;
+  --color-text-secondary: #4a5464;
+  --color-muted: #6d7890;
+
+  --color-accent: #a87b10;
+  --color-accent-soft: #e3b34126;
+  --color-accent-strong: #8a6309;
+
+  --color-good: #047857;
+  --color-good-soft: #04785716;
+  --color-warn: #b45309;
+  --color-warn-soft: #b4530916;
+  --color-danger: #dc2626;
+  --color-danger-soft: #dc262614;
+  --color-info: #2563eb;
+  --color-info-soft: #2563eb14;
+  --color-violet: #7c3aed;
+  --color-violet-soft: #7c3aed14;
+}
+
+/* Milana's profile: rose accent and softer corners — same dark canvas. */
+html[data-profile="milana"] {
+  --color-accent: #ec6aa0;
+  --color-accent-soft: #ec6aa022;
+  --color-accent-strong: #f48fb8;
+  --radius-card: 1.1rem;
+}
+html[data-profile="milana"][data-theme="light"] {
+  --color-accent: #b0356f;
+  --color-accent-soft: #ec6aa026;
+  --color-accent-strong: #93295c;
+}
+
+body {
+  background-color: var(--color-bg);
+  /* Ambient brand glow bleeding in from the top — barely there on purpose. */
+  background-image: radial-gradient(
+    56rem 26rem at 50% -8rem,
+    color-mix(in srgb, var(--color-accent) 5%, transparent),
+    transparent
+  );
+  background-attachment: fixed;
+  color: var(--color-text);
+  font-feature-settings: "cv11", "ss01";
+}
+
+/* Respect users who opt out of motion — and win the a11y judges over. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Data-heavy UI: keep digits aligned everywhere */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+}
+
+/* Subtle scrollbars that fit the active theme */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
